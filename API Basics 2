@@ -1,0 +1,39 @@
+
+---
+
+### 1. **Cookie**
+
+* **What it is**: Small data stored on the user’s browser.
+* **Used for**:
+
+  * Remembering user login
+  * Storing user preferences
+  * Tracking user activity (e.g., in ads or analytics)
+
+---
+
+### 2. **Header**
+
+* **What it is**: Extra information sent with HTTP requests/responses.
+* **Used for**:
+
+  * Telling the server what kind of data is being sent/received
+  * Authentication (like tokens)
+  * Controlling cache, content type, etc.
+
+---
+
+### 3. **HTTP Methods**
+
+* **Common methods**:
+
+  * **GET** – Get data
+  * **POST** – Send new data
+  * **PUT** – Update data
+  * **DELETE** – Remove data
+  * **PATCH** – Partially update data
+  * **HEAD** – Like GET, but no body
+  * **OPTIONS** – Shows allowed methods
+
+---
+
