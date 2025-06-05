@@ -1,0 +1,50 @@
+1. HTTP (HyperText Transfer Protocol):
+It’s the protocol used by web browsers and servers to communicate. It sends and receives data (like web pages) over the internet.
+
+
+2. Client → Server (How it works)
+
+When you open a website:
+
+Client = your browser (like Chrome or Firefox).
+
+Server = the computer that holds the website.
+
+You (Client) send a request → The Server processes it → Sends back a response (like a webpage, data, etc).
+
+
+3. Authentication vs Authorization
+
+They sound similar but are very different:
+
+Term Meaning Authentication Who are you? Proving your identity. Example: Logging in with username/password. Authorization What can you do? Checking what actions you're allowed to take. Example: Can you access the admin page or just user profile?
+
+📝 Tip:
+
+Authentication = Identity
+Authorization = Permission
+
+
+
+4.Cookie, Headers, URL vs URI
+1. Cookies
+Small pieces of data stored in your browser.
+Used to remember you (like staying logged in).
+Sent with requests to the server automatically.
+
+Example:
+You log into Facebook → A cookie is saved → Next time, you're still logged in.
+
+
+2. Headers
+Extra information sent with a request or response.
+Used for things like authentication, content type, etc.
+
+Example:
+GET /profile HTTP/1.1
+Host: example.com
+Authorization: Bearer token123
+
+3. URL vs URI
+Term Meaning Example URL (Uniform Resource Locator) The full address of a resource https://example.com/page?id=1 URI (Uniform Resource Identifier) A more general name or identifier for a resource (can include URL) https://example.com, mailto:abc@example.com
+📝 All URLs are URIs, but not all URIs are URLs.
