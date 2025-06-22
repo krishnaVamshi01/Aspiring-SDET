@@ -1,0 +1,118 @@
+API TEST PLAN — CURA Healthcare Service
+
+
+📌 Project Information
+Attribute	Detail
+Project Name	CURA Healthcare Service (API Testing)
+Base URL	https://katalon-demo-cura.herokuapp.com
+Prepared By	QA Team
+Environment	Staging / Test
+Test Type	Functional API Testing
+Tools Used	Postman, cURL, Katalon Studio, JMeter (opt)
+
+🎯 Objective
+To validate the correct behavior, security, and reliability of the Login, Book Appointment, and Logout APIs in the CURA Healthcare application.
+
+🗂️ API Endpoints Covered
+Feature	Method	Endpoint	Auth Required
+Login	POST	/authenticate.php	❌
+Book Appointment	POST	/appointment.php (via form submission, after login)	✅
+Logout	GET	/authenticate.php?logout	✅
+
+📋 Test Scope
+✅ In Scope
+Valid and invalid login attempts
+
+Session creation and cookie management
+
+Appointment form submission post-login
+
+Proper logout behavior and session invalidation
+
+Response codes, redirection, and header validations
+
+❌ Out of Scope
+UI responsiveness
+
+Database/backend verification
+
+API rate limiting
+
+⚙️ Test Scenarios
+ID	Test Scenario Description	Expected Result
+TS01	Login with valid credentials	Response 302 (redirect) or 200 OK, session created
+TS02	Login with invalid credentials	Response 200 OK with login page, error message shown
+TS03	Login with missing username/password	Response 200 OK with login page, error message shown
+TS04	Book appointment after successful login	Response 200 OK, confirmation displayed
+TS05	Book appointment without session	Response redirects to login page
+TS06	Book appointment with invalid data	Validation error message shown (front-end or server error)
+TS07	Logout with active session	Response 302, session ends, redirected to login page
+TS08	Logout without session	Response 302 or 200, redirected to login page
+TS09	Session remains active after login and before logout	User can access /appointment.php and /profile.php
+TS10	API response header and content-type validation	Correct Content-Type, Set-Cookie, and status headers
+
+🧪 Test Data
+Username	Password	Validity
+John Doe	ThisIsNotAPassword	✅ Valid
+test_user	wrong_password	❌ Invalid
+blank	ThisIsNotAPassword	❌ Invalid
+John Doe	blank	❌ Invalid
+
+📤 Sample Requests
+🔐 Login API
+http
+Copy
+Edit
+POST /authenticate.php
+Content-Type: application/x-www-form-urlencoded
+
+Body:
+username=John+Doe&password=ThisIsNotAPassword
+🩺 Book Appointment API
+http
+Copy
+Edit
+POST /appointment.php
+(Requires session cookie from login)
+
+Form Data:
+facility=Tokyo+CUR+Hospital
+hospital_readmission=Yes
+programs=Medicare
+visit_date=06/25/2025
+comment=Test+booking
+🚪 Logout API
+http
+Copy
+Edit
+GET /authenticate.php?logout
+(Requires session cookie)
+📊 Entry Criteria
+API environment is accessible
+
+Credentials for valid login are available
+
+Tools (Postman/cURL) are configured
+
+✅ Exit Criteria
+All high-priority test cases are executed
+
+Defects are logged and/or resolved
+
+API responses validated as per specs
+
+🧩 Test Deliverables
+API Test Plan (this document)
+
+Test Cases & Execution Report
+
+Logs from Postman/cURL or Katalon
+
+Bug Reports (if applicable)
+
+📅 Timeline
+Phase	Duration
+Test Plan Review	1 day
+Test Case Design	1 day
+API Test Execution	2 days
+Report & Closure	1 day

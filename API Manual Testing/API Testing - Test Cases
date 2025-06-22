@@ -1,0 +1,62 @@
+API TEST CASES — CURA HEALTHCARE SERVICE
+📂 Module: Login API
+✅ Endpoint:
+POST /authenticate.php
+Content-Type: application/x-www-form-urlencoded
+
+🔐 Test Cases:
+
+| TC ID         | Test Case Description                 | Input (username/password)       | Expected Result                                          | Status Code |
+| ------------- | ------------------------------------- | ------------------------------- | -------------------------------------------------------- | ----------- |
+| TC\_LOGIN\_01 | Login with valid credentials          | John Doe / ThisIsNotAPassword   | Login successful, redirect to dashboard, session created | 302 / 200   |
+| TC\_LOGIN\_02 | Login with invalid password           | John Doe / WrongPassword        | Stay on login page, show error message                   | 200         |
+| TC\_LOGIN\_03 | Login with invalid username           | Jane Smith / ThisIsNotAPassword | Stay on login page, show error message                   | 200         |
+| TC\_LOGIN\_04 | Login with empty username             | (blank) / ThisIsNotAPassword    | Validation error or login failure                        | 200         |
+| TC\_LOGIN\_05 | Login with empty password             | John Doe / (blank)              | Validation error or login failure                        | 200         |
+| TC\_LOGIN\_06 | Login with both fields empty          | (blank) / (blank)               | Validation error or login failure                        | 200         |
+| TC\_LOGIN\_07 | Verify session cookie is returned     | John Doe / ThisIsNotAPassword   | Cookie `PHPSESSID` is returned in response               | 200 / 302   |
+| TC\_LOGIN\_08 | Login using invalid HTTP method (GET) | N/A                             | Method not allowed or unexpected behavior                | 405 or 200  |
+
+
+📂 Module: Book Appointment API (form simulation)
+🔔 Note: This process is simulated through form submission post-login and does not use a REST API. Valid session (PHPSESSID) is required.
+
+✅ Endpoint:
+POST /appointment.php (after login)
+Content-Type: application/x-www-form-urlencoded
+
+📅 Test Cases:
+
+| TC ID        | Test Case Description                              | Input Details                                       | Expected Result                         | Status Code |
+| ------------ | -------------------------------------------------- | --------------------------------------------------- | --------------------------------------- | ----------- |
+| TC\_APPT\_01 | Book appointment with all valid fields             | Facility, Readmission: Yes, Medicare, Date, Comment | Appointment confirmed                   | 200         |
+| TC\_APPT\_02 | Book appointment with no session (unauthenticated) | Same as above without valid cookie                  | Redirect to login                       | 302         |
+| TC\_APPT\_03 | Missing required field (e.g., date)                | Leave `visit_date` blank                            | Error shown / appointment not saved     | 200         |
+| TC\_APPT\_04 | Use expired/invalid session cookie                 | PHPSESSID=invalid                                   | Redirect to login                       | 302         |
+| TC\_APPT\_05 | Submit very long comment                           | 1000+ chars in comment field                        | Should accept or truncate with no crash | 200         |
+| TC\_APPT\_06 | Invalid facility value                             | facility=INVALID\_VALUE                             | Server handles gracefully or rejects    | 200         |
+
+
+
+📂 Module: Logout API
+✅ Endpoint:
+GET /authenticate.php?logout
+
+| TC ID          | Test Case Description                      | Session Info                       | Expected Result                           | Status Code |
+| -------------- | ------------------------------------------ | ---------------------------------- | ----------------------------------------- | ----------- |
+| TC\_LOGOUT\_01 | Logout after valid login                   | Valid `PHPSESSID`                  | Redirect to login page, session destroyed | 302         |
+| TC\_LOGOUT\_02 | Logout without an active session           | No `PHPSESSID`                     | Redirect to login page                    | 302         |
+| TC\_LOGOUT\_03 | Logout with invalid session                | Invalid session cookie             | Redirect to login page                    | 302         |
+| TC\_LOGOUT\_04 | Verify session is invalidated after logout | Logout then try `/appointment.php` | Redirect to login (access blocked)        | 302         |
+| TC\_LOGOUT\_05 | Use POST method for logout (negative test) | POST `/authenticate.php?logout`    | May fail silently or treat as GET         | 200 / 405   |
+
+
+| Field           | Sample Value        |
+| --------------- | ------------------- |
+| **Username**    | John Doe            |
+| **Password**    | ThisIsNotAPassword  |
+| **Facility**    | Tokyo CURA Hospital |
+| **Readmission** | Yes / No            |
+| **Program**     | Medicare / Medicaid |
+| **Visit Date**  | 06/25/2025          |
+| **Comment**     | “Routine checkup”   |
